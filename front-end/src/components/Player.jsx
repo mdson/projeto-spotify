@@ -34,14 +34,34 @@ const Player = ({ duration, randomIdFromArtist, randomId2FromArtist, audio }) =>
   };
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if(isPlaying) setCurrentTime(formatTime(audioPlayer.current.currentTime));
+    let animationFrameId;
 
-      progressBar.current.style.setProperty("--_progress", (audioPlayer.current.currentTime / durationInSeconds) * 100 + "%");
-    }, 1000);
-    
-    return () => clearInterval(intervalId);
-    }, [isPlaying]);
+    const updateProgress = () => {
+      // Se o player existir, atualiza os valores
+      if (audioPlayer.current) {
+        const current = audioPlayer.current.currentTime;
+        
+        progressBar.current.style.setProperty(
+          "--_progress",
+          (current / durationInSeconds) * 100 + "%"
+        );
+
+        setCurrentTime(formatTime(current));
+      }
+
+      if (isPlaying) {
+        animationFrameId = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    // Se estiver tocando, inicia o loop
+    if (isPlaying) {
+      animationFrameId = requestAnimationFrame(updateProgress);
+    }
+
+    // cleanup function para cancelar o loop quando o componente desmontar ou isPlaying mudar
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPlaying, durationInSeconds]);
   
 
   return (
