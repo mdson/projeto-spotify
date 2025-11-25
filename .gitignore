@@ -1,0 +1,39 @@
+# --- Dependências ---
+node_modules/
+
+# --- Build ---
+dist/
+dist-ssr/
+build/
+out/
+
+# --- Ambiente ---
+.env
+.env.*
+
+!.env.example
+# Arquivos locais gerais
+*.local
+
+# --- Logs e Debug ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Editor (VS Code) e IDEs ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- Sistema Operacional (Lixo do Mac e Windows) ---
+.DS_Store
+Thumbs.db
